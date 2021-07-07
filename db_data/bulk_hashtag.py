@@ -13,6 +13,7 @@ except Exception as e:
     sys.exit()
 
 
+# 기존 풀에 없으면 저장
 def hashtag_update():
     all_hashtags = get_hashtags('content').union(get_hashtags('product'))  # hashtags of guides + hashtags of products
     hashtag_pool = [i[0] for i in get_hashtag_pool()]  # convert list of tuple to list
@@ -28,6 +29,7 @@ def hashtag_update():
         print('error - rollback', ex)
 
 
+# 콘텐츠에서 해시태그 가져옴
 def get_hashtags(content):
     hashtag_set = set()
     sql = "SELECT hash_tag_one, hash_tag_two, hash_tag_thr FROM %s" % content
@@ -44,6 +46,7 @@ def get_hashtags(content):
     return hashtag_set
 
 
+# 기존 풀의 해시태그들 조회
 def get_hashtag_pool():
     sql = "SELECT hashtag FROM hashtag_pool"
     try:
@@ -54,6 +57,7 @@ def get_hashtag_pool():
     return hashtag_pool
 
 
+# 해시태그 저장
 def save_hashtag(hashtag):
     sql = "INSERT INTO hashtag_pool (hashtag) VALUES ('%s')" % hashtag
     try:
